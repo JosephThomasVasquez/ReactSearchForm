@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {ClipLoader, BarLoader, BeatLoader} from "react-spinners";
 
 const defaultSearchTerms = ["abcdefghijklmnopqrstuvwxyz0123456789"];
 
@@ -58,21 +59,49 @@ const checkLink = (item) => {
 function SearchForm() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+    ifLoading(true);
   };
 
   useEffect(() => {
     const results = people.filter((person) =>
       person.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
     setSearchResults(results);
+    
   }, [searchTerm]);
+
+  
+  
+
+const ifLoading = props => {
+
+  
+  if(props === true) {
+    setIsLoading(props);
+    setTimeout(() => {
+      setIsLoading(false);
+      console.log("Is loading!", props);
+    }, 250);
+    
+  }else {
+    setIsLoading(true);
+    console.log("Done loading!", props);
+  }
+
+  
+  console.log("Loading changed!");
+
+};
 
   return (
     <div>
       <form>
+        <ClipLoader color="rgba(255, 90, 15, 1)" size={20} loading={isLoading} />
         <input
           className="form-searchfield"
           type="text"
